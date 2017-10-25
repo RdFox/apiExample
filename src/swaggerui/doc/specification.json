@@ -1,0 +1,379 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the Documentation of the Shop Prototype.",
+    "version": "1.0.0",
+    "title": "api.shop.com - The example",
+    "contact": {
+      "email": "info@shop.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "customer",
+      "description": "A customer of the shop"
+    },
+    {
+      "name": "order",
+      "description": "An order of a customer"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/customer": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Add a new customer to the shop",
+        "description": "",
+        "operationId": "customerService.create",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "customer object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          },
+          "400": {
+            "description": "Invalid Content - Expects 'application/json'"
+          },
+          "409": {
+            "description": "Invalid Argument - The given ZIP Code is not in the delivery area!"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/customer/{customerId}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Find customer by ID",
+        "description": "Returns a single customer",
+        "operationId": "customerService.getById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "ID of customer to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          },
+          "400": {
+            "description": "Invalid Content - Expects 'application/json'"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Updates a customer in the store with form data",
+        "description": "",
+        "operationId": "customerService.update",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "ID of customer that needs to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "customer object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          },
+          "400": {
+            "description": "Invalid Content - Expects 'application/json'"
+          },
+          "404": {
+            "description": "Customer not Found"
+          },
+          "409": {
+            "description": "Invalid Argument - The given ZIP Code is not in the delivery area!"
+          },
+          "422": {
+            "description": "Unprocessable Entity Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Deletes a customer",
+        "description": "",
+        "operationId": "customerService.delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "customer id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful - No Content"
+          },
+          "400": {
+            "description": "Invalid Content"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customer/{customerId}/orders": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Find orders of a customer",
+        "description": "Returns all orders of a customer",
+        "operationId": "orderService.list",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "ID of customer, which orders to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/order"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Content Error"
+          }
+        }
+      }
+    },
+    "/customer/{customerId}/order/{orderId}": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Find order of a customer",
+        "description": "Returns specific order of a customer",
+        "operationId": "orderService.getById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "ID of customer, which orders to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of the order to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/order"
+            }
+          },
+          "400": {
+            "description": "Invalid Content"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Deletes an order",
+        "description": "",
+        "operationId": "orderService.delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "ID of customer, which orders to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of the order to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful - No Content"
+          },
+          "400": {
+            "description": "Invalid Content"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "customer": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "individual uuid - set by the system"
+        },
+        "address": {
+          "type": "string",
+          "description": "the full address of the customer"
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "zip code that is in the delivery area"
+        },
+        "emmailAddress": {
+          "type": "string",
+          "description": "email addresse of the customer"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "last name of the customer"
+        }
+      }
+    },
+    "order": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "individual uuid - set by the system"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date of order"
+        },
+        "deliveryTime": {
+          "type": "string",
+          "description": "Date and time of delivery"
+        },
+        "deliveryAddress": {
+          "type": "string",
+          "description": "Address to which the order got delivered"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "OPEN",
+            "IN PROGRESS",
+            "IN DELIVERY",
+            "SUCCESSFUL",
+            "DISCARDED"
+          ],
+          "description": "Current status of the order"
+        },
+        "_customer": {
+          "type": "string",
+          "description": "Uuid of the customer which orders this are - set by the system"
+        }
+      }
+    }
+  }
+}
