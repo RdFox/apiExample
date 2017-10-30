@@ -122,6 +122,4 @@ function deleteById (req, res, next) {
   });
 }
 
-
-
 module.exports = {create, list, getById, update, deleteById}
