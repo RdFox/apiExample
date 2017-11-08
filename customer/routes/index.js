@@ -6,8 +6,8 @@ module.exports = function(server) {
 
 	// Documentation
 	server.get('/doc/.*', restify.plugins.serveStatic({
-    	directory: './swaggerui',
-			default: '/docs.html'
+    	directory: './swagger-ui',
+			default: 'index.html'
   	})
 	);
 
