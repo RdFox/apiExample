@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const timestamps = require('mongoose-timestamp');
 const mongooseStringQuery = require('mongoose-string-query');
 
 const customerSchema = mongoose.Schema({
@@ -10,7 +9,6 @@ const customerSchema = mongoose.Schema({
   address: String,
 });
 
-customerSchema.plugin(timestamps);
 customerSchema.plugin(mongooseStringQuery);
 
 const Customer = mongoose.model('Customer', customerSchema);
